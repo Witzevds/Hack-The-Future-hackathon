@@ -1,0 +1,7 @@
+/* Verwijder standaard achtergrond en tekens van hotspots */
+.pnlm-hotspot-base {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 0 !important; /* Verwijdert de tekens */
+}
