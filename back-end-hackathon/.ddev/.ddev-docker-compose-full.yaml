@@ -1,0 +1,235 @@
+name: ddev-hack-the-future-witzevanderstraeten
+networks:
+    ddev_default:
+        external: true
+        name: ddev_default
+    default:
+        labels:
+            com.ddev.platform: ddev
+        name: ddev-hack-the-future-witzevanderstraeten_default
+services:
+    db:
+        build:
+            args:
+                BASE_IMAGE: ddev/ddev-dbserver-mariadb-10.11:v1.23.4
+                gid: "20"
+                uid: "501"
+                username: witzevds
+            context: /Users/witzevds/Documents/Programming-school/2024-2025/Hack-the-future/Hack-the-future-WitzeVanderStraeten/back-end-hackathon/.ddev/.dbimageBuild
+            dockerfile: Dockerfile
+        cap_add:
+            - SYS_NICE
+        command: []
+        container_name: ddev-Hack-the-future-WitzeVanderStraeten-db
+        environment:
+            COLUMNS: "223"
+            DDEV_DATABASE: mariadb:10.11
+            DDEV_DATABASE_FAMILY: mysql
+            DDEV_HOSTNAME: hack-the-future-witzevanderstraeten.ddev.site
+            DDEV_PHP_VERSION: "8.2"
+            DDEV_PRIMARY_URL: https://hack-the-future-witzevanderstraeten.ddev.site
+            DDEV_PROJECT: Hack-the-future-WitzeVanderStraeten
+            DDEV_PROJECT_TYPE: laravel
+            DDEV_ROUTER_HTTP_PORT: "80"
+            DDEV_ROUTER_HTTPS_PORT: "443"
+            DDEV_SITENAME: Hack-the-future-WitzeVanderStraeten
+            DDEV_TLD: ddev.site
+            DOCKER_IP: 127.0.0.1
+            GOARCH: arm64
+            GOOS: darwin
+            HOST_DOCKER_INTERNAL_IP: ""
+            IS_DDEV_PROJECT: "true"
+            LINES: "32"
+            MYSQL_HISTFILE: /mnt/ddev-global-cache/mysqlhistory/Hack-the-future-WitzeVanderStraeten-db/mysql_history
+            MYSQL_PWD: db
+            PGDATABASE: db
+            PGHOST: 127.0.0.1
+            PGPASSWORD: db
+            PGUSER: db
+            POSTGRES_DB: db
+            POSTGRES_PASSWORD: db
+            POSTGRES_USER: db
+            TZ: ""
+            USER: witzevds
+        healthcheck:
+            interval: 1s
+            retries: 70
+            start_period: 2m0s
+            timeout: 1m10s
+        hostname: Hack-the-future-WitzeVanderStraeten-db
+        image: ddev/ddev-dbserver-mariadb-10.11:v1.23.4-Hack-the-future-WitzeVanderStraeten-built
+        labels:
+            com.ddev.app-type: laravel
+            com.ddev.approot: /Users/witzevds/Documents/Programming-school/2024-2025/Hack-the-future/Hack-the-future-WitzeVanderStraeten/back-end-hackathon
+            com.ddev.platform: ddev
+            com.ddev.site-name: Hack-the-future-WitzeVanderStraeten
+        networks:
+            ddev_default: null
+            default: null
+        ports:
+            - host_ip: 127.0.0.1
+              mode: ingress
+              protocol: tcp
+              target: 3306
+        restart: "no"
+        stop_grace_period: 1m0s
+        user: "501:20"
+        volumes:
+            - source: database
+              target: /var/lib/mysql
+              type: volume
+              volume:
+                nocopy: true
+            - bind:
+                create_host_path: true
+              source: /Users/witzevds/Documents/Programming-school/2024-2025/Hack-the-future/Hack-the-future-WitzeVanderStraeten/back-end-hackathon/.ddev
+              target: /mnt/ddev_config
+              type: bind
+            - bind:
+                create_host_path: true
+              source: /Users/witzevds/Documents/Programming-school/2024-2025/Hack-the-future/Hack-the-future-WitzeVanderStraeten/back-end-hackathon/.ddev/db_snapshots
+              target: /mnt/snapshots
+              type: bind
+            - source: ddev-global-cache
+              target: /mnt/ddev-global-cache
+              type: volume
+              volume: {}
+        working_dir: /home/witzevds
+    web:
+        build:
+            args:
+                BASE_IMAGE: ddev/ddev-webserver:v1.23.4
+                DDEV_DATABASE: mariadb:10.11
+                DDEV_PHP_VERSION: "8.2"
+                gid: "20"
+                uid: "501"
+                username: witzevds
+            context: /Users/witzevds/Documents/Programming-school/2024-2025/Hack-the-future/Hack-the-future-WitzeVanderStraeten/back-end-hackathon/.ddev/.webimageBuild
+            dockerfile: Dockerfile
+        cap_add:
+            - SYS_PTRACE
+        command:
+            - /pre-start.sh
+        container_name: ddev-Hack-the-future-WitzeVanderStraeten-web
+        environment:
+            COLUMNS: "223"
+            COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+            COREPACK_HOME: /mnt/ddev-global-cache/corepack
+            DDEV_COMPOSER_ROOT: /var/www/html
+            DDEV_DATABASE: mariadb:10.11
+            DDEV_DATABASE_FAMILY: mysql
+            DDEV_DOCROOT: public
+            DDEV_FILES_DIR: ""
+            DDEV_FILES_DIRS: ""
+            DDEV_HOSTNAME: hack-the-future-witzevanderstraeten.ddev.site
+            DDEV_MUTAGEN_ENABLED: "true"
+            DDEV_PHP_VERSION: "8.2"
+            DDEV_PRIMARY_URL: https://hack-the-future-witzevanderstraeten.ddev.site
+            DDEV_PROJECT: Hack-the-future-WitzeVanderStraeten
+            DDEV_PROJECT_TYPE: laravel
+            DDEV_ROUTER_HTTP_PORT: "80"
+            DDEV_ROUTER_HTTPS_PORT: "443"
+            DDEV_SITENAME: Hack-the-future-WitzeVanderStraeten
+            DDEV_TLD: ddev.site
+            DDEV_VERSION: v1.23.4
+            DDEV_WEB_ENTRYPOINT: /mnt/ddev_config/web-entrypoint.d
+            DDEV_WEBSERVER_TYPE: nginx-fpm
+            DDEV_XDEBUG_ENABLED: "false"
+            DEPLOY_NAME: local
+            DOCKER_IP: 127.0.0.1
+            DOCROOT: public
+            DRUSH_ALLOW_XDEBUG: "1"
+            DRUSH_OPTIONS_URI: https://hack-the-future-witzevanderstraeten.ddev.site
+            GOARCH: arm64
+            GOOS: darwin
+            HOST_DOCKER_INTERNAL_IP: ""
+            HTTP_EXPOSE: 80:80,8025:8025
+            HTTPS_EXPOSE: 443:80,8026:8025
+            IS_DDEV_PROJECT: "true"
+            LINES: "32"
+            MYSQL_HISTFILE: /mnt/ddev-global-cache/mysqlhistory/Hack-the-future-WitzeVanderStraeten-web/mysql_history
+            MYSQL_PWD: db
+            NODE_EXTRA_CA_CERTS: /mnt/ddev-global-cache/mkcert/rootCA.pem
+            PGDATABASE: db
+            PGHOST: db
+            PGPASSWORD: db
+            PGUSER: db
+            PHP_IDE_CONFIG: serverName=Hack-the-future-WitzeVanderStraeten.ddev.site
+            SSH_AUTH_SOCK: /home/.ssh-agent/socket
+            TZ: ""
+            USER: witzevds
+            VIRTUAL_HOST: hack-the-future-witzevanderstraeten.ddev.site
+            npm_config_cache: /mnt/ddev-global-cache/npm
+        external_links:
+            - ddev-router:hack-the-future-witzevanderstraeten.ddev.site
+        healthcheck:
+            interval: 1s
+            retries: 70
+            start_period: 2m0s
+            timeout: 1m10s
+        hostname: Hack-the-future-WitzeVanderStraeten-web
+        image: ddev/ddev-webserver:v1.23.4-Hack-the-future-WitzeVanderStraeten-built
+        labels:
+            com.ddev.app-type: laravel
+            com.ddev.approot: /Users/witzevds/Documents/Programming-school/2024-2025/Hack-the-future/Hack-the-future-WitzeVanderStraeten/back-end-hackathon
+            com.ddev.platform: ddev
+            com.ddev.site-name: Hack-the-future-WitzeVanderStraeten
+        networks:
+            ddev_default: null
+            default: null
+        ports:
+            - host_ip: 127.0.0.1
+              mode: ingress
+              protocol: tcp
+              target: 80
+            - host_ip: 127.0.0.1
+              mode: ingress
+              protocol: tcp
+              target: 443
+        restart: "no"
+        user: "501:20"
+        volumes:
+            - source: project_mutagen
+              target: /var/www
+              type: volume
+              volume:
+                nocopy: true
+            - source: project_mutagen
+              target: /tmp/project_mutagen
+              type: volume
+              volume:
+                nocopy: true
+            - bind:
+                create_host_path: true
+              read_only: true
+              source: /Users/witzevds/Documents/Programming-school/2024-2025/Hack-the-future/Hack-the-future-WitzeVanderStraeten/back-end-hackathon/.ddev
+              target: /mnt/ddev_config
+              type: bind
+            - bind:
+                create_host_path: true
+              read_only: true
+              source: /Users/witzevds/Documents/Programming-school/2024-2025/Hack-the-future/Hack-the-future-WitzeVanderStraeten/back-end-hackathon/.ddev/xhprof
+              target: /usr/local/bin/xhprof
+              type: bind
+            - source: ddev-global-cache
+              target: /mnt/ddev-global-cache
+              type: volume
+              volume: {}
+            - source: ddev-ssh-agent_socket_dir
+              target: /home/.ssh-agent
+              type: volume
+              volume: {}
+        working_dir: /var/www/html/
+volumes:
+    database:
+        external: true
+        name: Hack-the-future-WitzeVanderStraeten-mariadb
+    ddev-global-cache:
+        external: true
+        name: ddev-global-cache
+    ddev-ssh-agent_socket_dir:
+        external: true
+        name: ddev-ssh-agent_socket_dir
+    project_mutagen:
+        external: true
+        name: Hack-the-future-WitzeVanderStraeten_project_mutagen

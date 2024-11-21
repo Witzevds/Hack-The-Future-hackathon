@@ -1,0 +1,77 @@
+#ddev-generated
+# If you remove the ddev-generated line above you
+# are responsible for maintaining this file. DDEV will not then
+# update it, for example if you add `additional_hostnames`, etc.
+
+http:
+  routers:
+    Hack-the-future-WitzeVanderStraeten-web-80-http:
+      entrypoints:
+        - http-80
+      rule: HostRegexp(`^hack-the-future-witzevanderstraeten\.ddev\.site$`)
+      
+      service: "Hack-the-future-WitzeVanderStraeten-web-80"
+      ruleSyntax: v3
+      tls: false
+      # middlewares:
+      #   - "Hack-the-future-WitzeVanderStraeten-redirectHttps"
+    Hack-the-future-WitzeVanderStraeten-web-8025-http:
+      entrypoints:
+        - http-8025
+      rule: HostRegexp(`^hack-the-future-witzevanderstraeten\.ddev\.site$`)
+      
+      service: "Hack-the-future-WitzeVanderStraeten-web-8025"
+      ruleSyntax: v3
+      tls: false
+      # middlewares:
+      #   - "Hack-the-future-WitzeVanderStraeten-redirectHttps"
+    
+    
+    
+    Hack-the-future-WitzeVanderStraeten-web-80-https:
+      entrypoints:
+        - http-443
+      rule: HostRegexp(`^hack-the-future-witzevanderstraeten\.ddev\.site$`)
+      
+      service: "Hack-the-future-WitzeVanderStraeten-web-80"
+      ruleSyntax: v3
+      
+      tls: true
+      
+    Hack-the-future-WitzeVanderStraeten-web-8025-https:
+      entrypoints:
+        - http-8026
+      rule: HostRegexp(`^hack-the-future-witzevanderstraeten\.ddev\.site$`)
+      
+      service: "Hack-the-future-WitzeVanderStraeten-web-8025"
+      ruleSyntax: v3
+      
+      tls: true
+      
+    
+
+  middlewares:
+    Hack-the-future-WitzeVanderStraeten-redirectHttps:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  services:
+    Hack-the-future-WitzeVanderStraeten-web-80:
+      loadbalancer:
+        servers:
+          - url: http://ddev-Hack-the-future-WitzeVanderStraeten-web:80
+        
+    Hack-the-future-WitzeVanderStraeten-web-8025:
+      loadbalancer:
+        servers:
+          - url: http://ddev-Hack-the-future-WitzeVanderStraeten-web:8025
+        
+    
+    
+    
+
+tls:
+  certificates:
+    - certFile: /mnt/ddev-global-cache/traefik/certs/Hack-the-future-WitzeVanderStraeten.crt
+      keyFile: /mnt/ddev-global-cache/traefik/certs/Hack-the-future-WitzeVanderStraeten.key
